@@ -1,6 +1,7 @@
 use std::fs::write;
 use std::io;
 use std::io::BufRead;
+use html_cleaner::*;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -14,8 +15,9 @@ fn main() {
         panic!("No input txt file provided");
     }
     let mut cleaned_lines = vec![];
+    let replacement_regexes = get_replacement_regexes();
     let file_path = &args[1];
-    let ammonia = ammonia::Builder::empty();
+    let ammonia = ammonia_init();
 
     let file = std::fs::File::open(file_path)
         .unwrap_or_else(|_| panic!("Failed to open input file {file_path}"));
@@ -23,9 +25,7 @@ fn main() {
     for line in lines {
         if let Ok(v) = line {
             if v.is_empty() { continue; }
-            let result = ammonia
-                .clean(v.as_str()).to_string()
-                .replace("&nbsp;", " ").to_string();
+            let result = remove_html(&ammonia, &replacement_regexes, &v);
             cleaned_lines.push(result);
         } else {
             println!("Failed to read line with error: {:?}", line);
@@ -39,4 +39,3 @@ fn main() {
     // Report success
     println!("A {output_file} was written to the current path.")
 }
-
