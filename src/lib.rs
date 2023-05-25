@@ -9,7 +9,7 @@ pub fn ammonia_init() -> ammonia::Builder<'static> {
 /// Extra regexes for various replacements.
 pub fn get_replacement_regexes() -> Vec<(regex::Regex, String)> {
     let re_multiple_spaces = regex::Regex::new(r"\s+").unwrap();
-    let re_space_at_the_end = regex::Regex::new(r"\s$").unwrap();
+    let re_space_at_the_end = regex::Regex::new(r"\s+$").unwrap();
     return vec![
         (re_multiple_spaces, " ".to_string()),
         (re_space_at_the_end, "".to_string()),
