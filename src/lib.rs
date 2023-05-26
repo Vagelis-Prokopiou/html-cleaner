@@ -19,18 +19,40 @@ pub fn get_replacement_regexes() -> Vec<(regex::Regex, String)> {
 }
 
 pub fn remove_html(ammonia: &ammonia::Builder, regexes: &Vec<(regex::Regex, String)>, value: &str) -> String {
-    let mut result = ammonia
-        .clean(value).to_string()
-        .replace("&nbsp;", " ");
+    // Convert html entities to html.
+    let result = htmlize::unescape(value)
+        .replace('\u{a0}', " "); // &nbsp; are converted to the utf8 \u{a0}
+
+    // Remove html.
+    let mut result = ammonia.clean(&result).to_string();
+
+    // Remove white spaces
     for (regex, replacement) in regexes {
         result = regex.replace_all(&result, replacement).to_string();
     }
+
     return result;
 }
 
 #[cfg(test)]
 mod tests {
     use crate::*;
+
+    #[test]
+    fn test_space() {
+        let expected = " ";
+        let input = "&nbsp;";
+        let actual = htmlize::unescape(input).replace("\u{a0}", " ");
+        assert_eq!(expected, actual);
+
+        let input = "&#160;"; // Same as above but with html entity number
+        let actual = htmlize::unescape(input).replace("\u{a0}", " ");
+        assert_eq!(expected, actual);
+
+        let input = "&#32;";
+        let actual = htmlize::unescape(input);
+        assert_eq!(expected, actual);
+    }
 
     #[test]
     fn test_remove_html() {
