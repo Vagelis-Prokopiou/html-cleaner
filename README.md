@@ -3,7 +3,7 @@ html-cleaner: A command line utility that strips all html tags, leaving the pure
 # Usage
 
 ```shell
-html-cleaner.exe /file/to/path.txt
+/absolute/path/to/html-cleaner.exe /absolute/path/to/file.txt
 ```
 
 The input file should be a `txt` file, with one entry per line. Example:

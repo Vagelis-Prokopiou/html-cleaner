@@ -5,13 +5,16 @@ use html_cleaner::*;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
-    let executable_name = args[0]
-        .replace("target", "")
-        .replace("debug", "")
-        .replace("release", "")
-        .replace('\\', "");
+     let executable_name = "html-cleaner.exe";
+    // args[0]
+    //     .replace("target", "")
+    //     .replace("debug", "")
+    //     .replace("release", "")
+    //     .replace("\\\\", "\\")
+    //     ;
     if args.len() != 2 {
-        println!("Example usage: {} /path/to/file.txt", executable_name);
+        println!("\nExample usage: /absolute/path/to/{} /absolute/path/to/file.txt", executable_name);
+        println!("See README.md for more info.\n");
         panic!("No input txt file provided");
     }
     let mut cleaned_lines = vec![];
