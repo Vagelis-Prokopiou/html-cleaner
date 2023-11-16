@@ -3,7 +3,7 @@
 # Variables
 bin=target/release/html-cleaner.exe
 version=$(grep '^version =' Cargo.toml | awk '{print $3}' | sed 's/"//g')
-release_dir_base="/d/temp/rust-utils";
+release_dir_base="/d/temp/cli-utils";
 release_dir="${release_dir_base}/html-cleaner/v${version}"
 
 # Remove the target dir if exists.
