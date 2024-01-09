@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 ammonia = "3"
-htmlize = { version = "1.0.2", features = ["unescape"] }
+htmlize = { version = "1", features = ["unescape"] }
 regex = "1"
